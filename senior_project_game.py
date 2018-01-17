@@ -48,5 +48,90 @@ class MyHero:
     while explore not in ['0', '1', '2']:
         explore = input(choice_prompt)
     dialogue_paths.village(explore)
+    
+    
+    def armory_options():
+    actions = {'1': 'leave', '2': 'investigate', '3':'quit'}
+    results = {'leave': 'you exit the location', 'investigate':'you see a bright shiny ball', 'quit':'thank you for playing'}
+    print 'You are currently in the armory...'
+    selection = decide(actions)
+
+    return results.get(actions.get(selection), 'invalid input')
+
+def tavern_options():
+    actions = {'1': 'leave', '2': 'investigate', '3':'quit'}
+    results = {'leave': 'you exit the location', 'investigate':'you see a bright shiny ball', 'quit':'thank you for playing'}
+    print 'You are currently in the tavern...'
+    selection = decide(actions)
+
+    return results.get(actions.get(selection), 'invalid input')
+
+def fortress_options():
+    actions = {'1': 'leave', '2': 'investigate', '3': 'go to', '4':'quit'}
+    results = {'leave': 'you exit the location', 'investigate': investigate,
+               'quit':'thank you for playing', 'go to': goto}
+    observations = {'people':['a Squire','a Servant'],
+                    'things':['bags of food', 'bales of hay', 'piles of rubbish'],
+                    'destinations':['Tower Keep', 'Armory', 'Kitchen', 'Exit']}
+
+    print 'You are currently in the fortress...'
+    selection = decide(actions)
+    result = results.get(actions.get(selection), 'invalid input')
+    if callable(result):
+        if result.func_name == 'investigate':
+            return result(observations)
+        else:
+            return result()
+    else:
+        return results.get(actions.get(selection), 'invalid input')
+
+def goto(myHero, location=None, location_options=None):
+    if not location:
+        options = {}
+        for i in xrange(len(location_options)):
+            options[str(i)]= location_options[i].lower()
+        selection = decide(options)
+        location = options.get(selection)
+
+
+    func = GLOBAL_LOCATIONS.get(location,'nothing')
+    if not callable(func):
+        print 'Not a valid destination'
+    myHero.location = location
+    return func()
+
+def investigate(observations):
+    if observations['people']:
+        print 'You see several people milling about as well as {0}'.format(' and '.join(observations['people']))
+    else:
+        print 'You see no one of interest.'
+    if observations['things']:
+        print 'There are {0} scattered around.'.format(' and '.join(observations['things']))
+    if observations['destinations']:
+        print 'These places are accessible:\n{0}'.format('\n'.join(observations['destinations']))
+    print '...'
+    actions = {'1':'speak to someone','2': 'go to', '3': 'quit'}
+
+    selection = decide(actions)
+    if selection == '2':
+        return goto(location_options=observations['destinations'])
+    return actions.get(selection,'nothing')
+
+def decide(options):
+    print 'What is your pleasure?...'
+    keys = options.keys()
+    keys.sort()
+    for k in keys:
+        print '{0}) {1}'.format(k, options[k])
+    selection = raw_input('Enter your choice:')
+    return selection
+
+
+
+
+GLOBAL_LOCATIONS = {'fortress': fortress_options,
+         'tavern': tavern_options,
+         'armory': armory_options}
+
 
 
