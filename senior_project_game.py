@@ -50,10 +50,10 @@ class MyHero:
     dialogue_paths.village(explore)
     
     
-    def armory_options():
+    def townhall_options():
     actions = {'1': 'leave', '2': 'investigate', '3':'quit'}
     results = {'leave': 'you exit the location', 'investigate':'you see a bright shiny ball', 'quit':'thank you for playing'}
-    print 'You are currently in the armory...'
+    print 'You are currently in the townhall...'
     selection = decide(actions)
 
     return results.get(actions.get(selection), 'invalid input')
@@ -66,15 +66,15 @@ def tavern_options():
 
     return results.get(actions.get(selection), 'invalid input')
 
-def fortress_options():
+def town_options():
     actions = {'1': 'leave', '2': 'investigate', '3': 'go to', '4':'quit'}
     results = {'leave': 'you exit the location', 'investigate': investigate,
                'quit':'thank you for playing', 'go to': goto}
     observations = {'people':['a Squire','a Servant'],
                     'things':['bags of food', 'bales of hay', 'piles of rubbish'],
-                    'destinations':['Tower Keep', 'Armory', 'Kitchen', 'Exit']}
+                    'destinations':['Tavern', 'Blacksmith', 'Townhall', 'Exit']}
 
-    print 'You are currently in the fortress...'
+    print 'You are currently in the town...'
     selection = decide(actions)
     result = results.get(actions.get(selection), 'invalid input')
     if callable(result):
@@ -129,9 +129,9 @@ def decide(options):
 
 
 
-GLOBAL_LOCATIONS = {'fortress': fortress_options,
+GLOBAL_LOCATIONS = {'town': town_options,
          'tavern': tavern_options,
-         'armory': armory_options}
+         'townhall': townhall_options}
 
 
 
