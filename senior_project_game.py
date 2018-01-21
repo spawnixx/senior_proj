@@ -66,6 +66,15 @@ def tavern_options():
 
     return results.get(actions.get(selection), 'invalid input')
 
+def cave_options():
+    actions = {'1': 'leave', '2': "investigate', '3': 'quit'}
+    results = {'leave': 'you exit the location', 'investigate': 'you see the dragon atop its heap of treasure and a pile of bodies nearby',
+               'quit': 'thank you for playing'}
+    print 'You are currently in the cave...'
+    selection = decide(actions)
+               
+    return results.get(actions.get(selection), 'invalid input')
+
 def town_options():
     actions = {'1': 'leave', '2': 'investigate', '3': 'go to', '4':'quit'}
     results = {'leave': 'you exit the location', 'investigate': investigate,
@@ -131,7 +140,9 @@ def decide(options):
 
 GLOBAL_LOCATIONS = {'town': town_options,
          'tavern': tavern_options,
-         'townhall': townhall_options}
+         'townhall': townhall_options,
+         'cave': cave_options          
+                   }
 
 
 
